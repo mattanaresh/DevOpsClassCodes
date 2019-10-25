@@ -1,0 +1,22 @@
+---
+- hosts: webservers
+  tasks:
+    - name: Login to Docker Hub registry
+      docker_login:
+        email: ""
+        username: ""
+        password: ""
+
+    - name: Pull the image
+      docker_image:
+        name: "mattanaresh/deploy:5"
+        source: pull
+
+    - name: Run the image as Container 
+      docker_container:
+        name: mnr_nginx
+        image: nginx
+        #(OPTIONAL)  command: /usr/sbin/nginx -g "daemon off;"
+        state: started
+        ports:
+          - "32768:80"
